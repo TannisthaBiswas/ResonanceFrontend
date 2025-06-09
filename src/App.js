@@ -14,27 +14,27 @@ function App() {
       <Route
         path="/form"
         element={
-          <ProtectedRoute>
+          // <ProtectedRoute>
             <FormPage />
-          </ProtectedRoute>
+          // </ProtectedRoute>
         }
       />
 
       <Route
         path="/loading"
         element={
-          <ProtectedRoute>
+          // <ProtectedRoute>
             <LoadingPage />
-          </ProtectedRoute>
+          // {/* </ProtectedRoute> */}
         }
       />
 
       <Route
-        path="/result"
+        path="/result/:id"
         element={
-          <ProtectedRoute>
+          // <ProtectedRoute>
             <ResultPage />
-          </ProtectedRoute>
+          // </ProtectedRoute>
         }
       />
     </Routes>

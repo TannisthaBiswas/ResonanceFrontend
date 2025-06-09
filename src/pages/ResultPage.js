@@ -1,24 +1,49 @@
 // src/pages/ResultPage.js
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Container, Card, Badge } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
 
 const ResultPage = () => {
   const [name, setName] = useState('');
   const [handle, setHandle] = useState('');
   const [sentiment, setSentiment] = useState('');
 
-  useEffect(() => {
-    const storedName = localStorage.getItem('name') || 'Unknown';
-    const storedHandle = localStorage.getItem('handle') || 'N/A';
+  const location = useLocation();
 
-    setName(storedName);
-    setHandle(storedHandle);
+  const pathSegments = location.pathname.split("/");
+  const encodedText = pathSegments[pathSegments.length - 1];
+  const decodedText = decodeURIComponent(encodedText);
 
-    // Fake sentiment result randomly
-    const fakeSentiments = ['Happy 😊', 'Sad 😔', 'Neutral 😐', 'Angry 😡'];
-    const random = Math.floor(Math.random() * fakeSentiments.length);
-    setSentiment(fakeSentiments[random]);
-  }, []);
+    useEffect(() => {
+    console.log("Decoded text:", decodedText);
+
+    // API call
+    const callApiFun = async () => {
+      try {
+        const response = await axios.post("https://tweet-sentiment-prediction.onrender.com/predict", {
+          text: decodedText
+        });
+        console.log("API Response:", response.data);
+        const value = response.data;
+
+        // Set sentiment from response if needed
+        // For now, just simulate a random sentiment:
+        const fakeSentiments = ['Happy 😊', 'Sad 😔', 'Neutral 😐', 'Angry 😡'];
+        if(value.sentiment == "positive"){
+
+          setSentiment(fakeSentiments[0]);
+        }
+
+        // If the API returns sentiment:
+        // setSentiment(response.data.sentiment);
+      } catch (error) {
+        console.error("API Error:", error);
+      }
+    };
+
+    callApiFun();
+  }, [decodedText]);
 
   return (
     <Container className="mt-5" style={{ maxWidth: '600px' }}>
