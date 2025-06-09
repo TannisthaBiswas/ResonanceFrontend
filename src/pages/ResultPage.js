@@ -22,7 +22,11 @@ const ResultPage = () => {
 
   return (
     <>
-      <Navbar bg="light" className="justify-content-end px-3">
+      {/* Navbar with "Previous" on the left and "Home" on the right */}
+      <Navbar bg="light" className="px-3 justify-content-between">
+        <Nav>
+          <Nav.Link as={Link} to="/form">← Previous</Nav.Link>
+        </Nav>
         <Nav>
           <Nav.Link as={Link} to="/">Home</Nav.Link>
         </Nav>
