@@ -1,7 +1,7 @@
 // src/pages/FormPage.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Container, Form, Button, Card } from 'react-bootstrap';
+import { useNavigate, Link } from 'react-router-dom';
+import { Container, Form, Button, Card, Navbar, Nav } from 'react-bootstrap';
 
 const FormPage = () => {
   const [name, setName] = useState('');
@@ -19,6 +19,13 @@ const FormPage = () => {
   };
 
   return (
+    <>
+      <Navbar bg="light" className="justify-content-end px-3">
+        <Nav>
+          <Nav.Link as={Link} to="/">Home</Nav.Link>
+        </Nav>
+      </Navbar>
+    
     <Container className="mt-5" style={{ maxWidth: '500px' }}>
       <Card className="p-4 shadow-sm">
         <h3 className="text-center mb-4">Enter User Details</h3>
