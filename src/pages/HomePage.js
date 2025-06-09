@@ -3,6 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/clerk-react';
 import { Container, Navbar, Nav, Button, Row, Col, Image } from 'react-bootstrap';
+import heroImage from '../assets/hero.jpg'; // Adjust path based on where you place the image
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -47,8 +48,8 @@ const HomePage = () => {
           </Col>
           <Col md={6}>
             <Image 
-              src="https://source.unsplash.com/400x300/?emotion,ai" 
-              alt="Illustration" 
+              src={heroImage} 
+              alt="AI analyzing emotions" 
               fluid 
               rounded 
             />
