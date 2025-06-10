@@ -4,7 +4,7 @@ import HomePage from "./pages/HomePage";
 import FormPage from "./pages/FormPage";
 import LoadingPage from "./pages/LoadingPage";
 import ResultPage from "./pages/ResultPage";
-import ProtectedRoute from "./components/ProtectedRoute";
+// import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (

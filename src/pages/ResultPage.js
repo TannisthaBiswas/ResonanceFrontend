@@ -1,7 +1,10 @@
 // src/pages/ResultPage.js
-import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
 import { Container, Card, Badge, Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { myContext } from '../context/Context';
 
 const ResultPage = () => {
   const [name, setName] = useState('');
@@ -10,6 +13,17 @@ const ResultPage = () => {
   const [likes, setLikes] = useState(0);
   const [retweets, setRetweets] = useState(0);
   const [replies, setReplies] = useState(0);
+  const [data, setData] = useState({})
+  const [contextData,setContextData] = useState({})
+
+  const location = useLocation();
+
+  const pathSegments = location.pathname.split("/");
+  const encodedText = pathSegments[pathSegments.length - 1];
+
+  const decodedText = decodeURIComponent(encodedText);
+
+  const {userData}=useContext(myContext)
 
   useEffect(() => {
     const storedName = localStorage.getItem('name') || 'Unknown';
@@ -18,16 +32,44 @@ const ResultPage = () => {
     setName(storedName);
     setHandle(storedHandle);
 
-    // Random sentiment
-    const fakeSentiments = ['Happy 😊', 'Sad 😔', 'Neutral 😐', 'Angry 😡'];
-    const random = Math.floor(Math.random() * fakeSentiments.length);
-    setSentiment(fakeSentiments[random]);
+    if (userData) {
+      setLikes(userData.likes || 0);
+      setRetweets(userData.retweets || 0);
+      setReplies(userData.replies || 0);
+    }
+    
+    
 
-    // Dummy predictions for likes, retweets, replies
-    setLikes(Math.floor(Math.random() * 1000));
-    setRetweets(Math.floor(Math.random() * 500));
-    setReplies(Math.floor(Math.random() * 300));
-  }, []);
+    const callApiFun = async () => {
+      try {
+        const response = await axios.post("https://tweet-sentiment-prediction.onrender.com/predict", {
+          text: decodedText
+        });
+        console.log("API Response res:", response.data);
+        const value = response?.data
+        setData(value)
+
+        
+        const fakeSentiments = ['Happy 😊', 'Sad 😔', 'Neutral 😐', 'Angry 😡'];
+        if (value.sentiment === "positive") {
+          setSentiment(fakeSentiments[0]);
+        } else if (value.sentiment === "negative") {
+          setSentiment(fakeSentiments[1]);
+        } else {
+          setSentiment(fakeSentiments[2]);
+        }
+
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    callApiFun();
+  }, [decodedText]);
+
+  if (!userData) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <>

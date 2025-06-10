@@ -1,10 +1,13 @@
 // src/pages/FormPage.js
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "./From.css"
 import axios from 'axios';
+import { myContext } from '../context/Context';
 
 const FormPage = () => {
+  const {userData,setUserData} = useContext(myContext)
+  
   const navigate = useNavigate();
   const [data, setData] = useState({
     author_followers: null,
@@ -31,21 +34,32 @@ const FormPage = () => {
       /[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{2600}-\u{26FF}]/gu;
     const hasEmoji = emojiRegex.test(text) ? 1 : 0;
 
+    const cleanedText = text.replace(/[#\W_]+/g, " ").trim();
+
     const newdata = {
       author_followers: countFollow,
       author_verified: (radiovalue == 'yes') ? 1 : 0,
       has_hashtags: hasHashtag ? 1 : 0,
       has_emojis: hasEmoji,
       tweet_length: text.length,
-      Text: text
+      Text: cleanedText
     }
+    console.log("from data",newdata);
     setData(newdata)
-    console.log("data", data);
+    
 
     try {
+      
       const response = await axios.post('https://twitter-engagement.onrender.com/predict', newdata);
       console.log("API Response:", response.data);
+      const val = response?.data
+      const newUserContextData = {
+        likes:Math.floor(val.predicted_likes),
+        replies: Math.floor(val.predicted_replies),
+        retweets:Math.floor(val.predicted_retweets)
 
+      }
+      setUserData(newUserContextData)
       // Navigate to the result page with the text
       navigate(`/result/${encodeURIComponent(text)}`);
     } catch (error) {
