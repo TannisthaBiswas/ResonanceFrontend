@@ -16,14 +16,20 @@ const LoadingPage = () => {
   const navigate = useNavigate();
   const [textIndex, setTextIndex] = useState(0);
 
- useEffect(() => {
-  const textTimer = setInterval(() => {
-    setTextIndex((prevIndex) => (prevIndex + 1) % loadingTexts.length);
-  }, 1500);
+  useEffect(() => {
+    const textTimer = setInterval(() => {
+      setTextIndex((prevIndex) => (prevIndex + 1) % loadingTexts.length);
+    }, 10000);
 
-  return () => clearInterval(textTimer);
-}, []);
+    const navTimer = setTimeout(() => {
+      navigate('/result');
+    }, 2000);
 
+    return () => {
+      clearInterval(textTimer);
+      clearTimeout(navTimer);
+    };
+  }, [navigate]);
 
   return (
     <Container className="d-flex flex-column justify-content-center align-items-center loading-container">
@@ -33,7 +39,6 @@ const LoadingPage = () => {
           loop
           autoplay
         />
-       
       </div>
       <h4 className="mt-4 animated-text">{loadingTexts[textIndex]}</h4>
     </Container>

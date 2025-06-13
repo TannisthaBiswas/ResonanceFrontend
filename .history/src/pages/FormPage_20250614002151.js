@@ -5,8 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import "./Form.css";
 import axios from 'axios';
 import { myContext } from '../context/Context';
-import emailImage from '../assets/email-illustration.png';
-
 
 const FormPage = () => {
   const { userData, setUserData } = useContext(myContext);
@@ -34,7 +32,6 @@ const FormPage = () => {
     };
 
     try {
-      navigate('/loading');
       const response = await axios.post('https://twitter-engagement.onrender.com/predict', newdata);
       const val = response.data;
       setUserData({
@@ -87,8 +84,7 @@ const FormPage = () => {
         </div>
 
         <div className="form-right">
-          <img src={emailImage} alt="Email Illustration" />
-
+          <img src="/email-illustration.png" alt="Email Illustration" />
           <div className="contact-info">
             <p>📍 151 New Park Ave, Hartford, CT 06106, United States</p>
             <p>📞 +1 (203) 302-9545</p>

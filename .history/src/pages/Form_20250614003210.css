@@ -1,0 +1,113 @@
+/* src/pages/Form.css */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.form-page {
+  background: linear-gradient(135deg, #745eff, #9e6aff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  height: 100vh;
+}
+
+.form-container {
+  width: 1100px;
+  height: 650px;
+  display: flex;
+  background: white;
+  border-radius: 60px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+
+  /* 👇 True blob shape */
+ clip-path: path("M80,0 Q100,40 180,20 T320,30 T460,20 T600,40 T740,20 Q820,0 880,40 Q940,80 960,160 Q980,240 960,320 Q940,400 880,440 Q820,480 740,460 T600,480 T460,460 T320,470 T180,460 Q100,440 80,400 Q60,360 60,320 Q40,240 60,160 Q80,80 80,0 Z");
+
+}
+
+
+.form-left, .form-right {
+  flex: 1;
+  padding: 2rem;
+}
+
+.form-left h1 {
+  color: #3e3e80;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.form-left p {
+  color: #888;
+  margin-bottom: 20px;
+}
+
+input[type="text"], input[type="email"], input[type="number"], textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.radio-group {
+  margin-bottom: 20px;
+}
+
+.radio-group span {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.radio-group label {
+  margin-right: 15px;
+}
+
+button {
+  background: linear-gradient(to right, #745eff, #9e6aff);
+  color: white;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #5e4cff;
+}
+
+.form-right {
+  text-align: center;
+  background-color: #f5f5ff;
+}
+
+.form-right img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.contact-info p {
+  margin: 10px 0;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.social-icons i {
+  margin: 0 10px;
+  font-size: 1.4rem;
+  color: #745eff;
+  cursor: pointer;
+}

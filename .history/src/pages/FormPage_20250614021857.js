@@ -34,7 +34,6 @@ const FormPage = () => {
     };
 
     try {
-      navigate('/loading');
       const response = await axios.post('https://twitter-engagement.onrender.com/predict', newdata);
       const val = response.data;
       setUserData({

@@ -16,14 +16,20 @@ const LoadingPage = () => {
   const navigate = useNavigate();
   const [textIndex, setTextIndex] = useState(0);
 
- useEffect(() => {
-  const textTimer = setInterval(() => {
-    setTextIndex((prevIndex) => (prevIndex + 1) % loadingTexts.length);
-  }, 1500);
+  useEffect(() => {
+    const textTimer = setInterval(() => {
+      setTextIndex((prevIndex) => (prevIndex + 1) % loadingTexts.length);
+    }, 1500);
 
-  return () => clearInterval(textTimer);
-}, []);
+    const navTimer = setTimeout(() => {
+      navigate('/result');
+    }, 20000);
 
+    return () => {
+      clearInterval(textTimer);
+      clearTimeout(navTimer);
+    };
+  }, [navigate]);
 
   return (
     <Container className="d-flex flex-column justify-content-center align-items-center loading-container">

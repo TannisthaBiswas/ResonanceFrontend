@@ -1,0 +1,24 @@
+/* src/pages/LoadingPage.css */
+
+.loading-container {
+  height: 100vh;
+  background-color: #ffffff;
+  color: #333;
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  padding: 20px;
+}
+
+.lottie-wrapper {
+  width: 640px;
+  height: 640px;
+  margin-bottom: 20px;
+}
+
+
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

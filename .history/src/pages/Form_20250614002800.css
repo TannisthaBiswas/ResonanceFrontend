@@ -1,0 +1,143 @@
+/* src/pages/Form.css */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #745eff, #9e6aff);
+  height: 100vh;
+  overflow: hidden;
+}
+
+.form-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.form-container {
+  width: 1100px;
+  height: 650px;
+  display: flex;
+  background: white;
+  border-radius: 60px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Curvy blob outline using pseudo-element */
+.form-container::before {
+  content: "";
+  position: absolute;
+  width: 120%;
+  height: 120%;
+  background: white;
+  border-radius: 60px;
+  z-index: -1;
+  transform: rotate(-1deg);
+  clip-path: path('M 0 120 Q 50 0, 120 30 Q 180 60, 250 40 Q 310 20, 380 30 Q 450 40, 530 10 Q 600 -20, 700 10 Q 800 40, 880 20 Q 950 10, 1100 40 Q 1050 200, 1100 400 Q 950 650, 800 600 Q 700 550, 600 580 Q 500 600, 400 570 Q 300 550, 200 580 Q 100 600, 0 500 Z');
+}
+
+/* Left side */
+.form-left, .form-right {
+  flex: 1;
+  padding: 3rem;
+  position: relative;
+  z-index: 2;
+}
+
+.form-left h1 {
+  color: #3e3e80;
+  font-size: 2.2rem;
+  margin-bottom: 15px;
+}
+
+.form-left p {
+  color: #777;
+  margin-bottom: 25px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+input[type="text"], input[type="email"], input[type="number"], textarea {
+  width: 100%;
+  padding: 15px 18px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  font-size: 1rem;
+  background: #f9f9f9;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.radio-group {
+  margin-bottom: 20px;
+}
+
+.radio-group span {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.radio-group label {
+  margin-right: 20px;
+  font-weight: 500;
+}
+
+button {
+  background: linear-gradient(to right, #745eff, #9e6aff);
+  color: white;
+  padding: 14px 30px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: #5e4cff;
+}
+
+/* Right side illustration & info */
+.form-right {
+  background: #f4f5ff;
+  border-top-right-radius: 60px;
+  border-bottom-right-radius: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-right img {
+  max-width: 220px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.contact-info {
+  text-align: center;
+  color: #4f4f6f;
+  font-size: 0.95rem;
+}
+
+.contact-info p {
+  margin: 8px 0;
+}
+
+.social-icons {
+  margin-top: 20px;
+}
+
+.social-icons i {
+  margin: 0 10px;
+  font-size: 1.4rem;
+  color: #745eff;
+  cursor: pointer;
+}

@@ -1,0 +1,115 @@
+/* src/pages/Form.css */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.form-page {
+  background: linear-gradient(135deg, #745eff, #9e6aff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  height: 100vh;
+}
+
+.form-container {
+  width: 1100px;
+  height: 650px;
+  display: flex;
+  background: white;
+  border-radius: 60px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+
+  /* 👇 True blob shape */
+  clip-path: path(
+    "M 10,40 L 70,40 L 80,30 L 80,10 L 90,0 L 140,0 L 150,10 L 150,90 L 140,200 L 10,200 L 0,190 L 0,50 L 10,40 Z"
+  );
+  
+}
+
+
+.form-left, .form-right {
+  flex: 1;
+  padding: 2rem;
+}
+
+.form-left h1 {
+  color: #3e3e80;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.form-left p {
+  color: #888;
+  margin-bottom: -23px;
+}
+
+input[type="text"], input[type="email"], input[type="number"], textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.radio-group {
+  margin-bottom: 20px;
+}
+
+.radio-group span {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.radio-group label {
+  margin-right: 15px;
+}
+
+button {
+  background: linear-gradient(to right, #745eff, #9e6aff);
+  color: white;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #5e4cff;
+}
+
+.form-right {
+  text-align: center;
+  background-color: #f5f5ff;
+}
+
+.form-right img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.contact-info p {
+  margin: 10px 0;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.social-icons i {
+  margin: 0 10px;
+  font-size: 1.4rem;
+  color: #745eff;
+  cursor: pointer;
+}
