@@ -1,14 +1,24 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "./Form.css";
 import axios from 'axios';
 import { myContext } from '../context/Context';
 import { motion } from 'framer-motion';
 import HeroImg from '../assets/hero.png';
+import { useUser } from '@clerk/clerk-react'
 
 const FormPage = () => {
-  const { userData, setUserData } = useContext(myContext);
+  const { user } = useUser()
+  const { userData, setUserData, predictData, setPredictData } = useContext(myContext);
   const navigate = useNavigate();
+  const [data, setData] = useState({
+    author_followers: null,
+    author_verified: null,
+    has_hashtags: null,
+    has_emojis: null,
+    tweet_length: null,
+    Text: ""
+  })
 
   const [text, setText] = useState("");
   const [countFollow, setCountFollow] = useState("");
@@ -33,8 +43,12 @@ const FormPage = () => {
       Text: cleanedText
     };
 
+    console.log("from data", newdata);
+    setData(newdata)
+
+
     try {
-      navigate('/loading');
+
       const response = await axios.post('https://twitter-engagement.onrender.com/predict', newdata);
       const val = response.data;
       setUserData({
@@ -42,11 +56,41 @@ const FormPage = () => {
         replies: Math.floor(val.predicted_replies),
         retweets: Math.floor(val.predicted_retweets)
       });
-      navigate(`/result/${encodeURIComponent(text)}`);
+
+      const newDataCall = async () => {
+        const res = await axios.post(`http://localhost:5000/api/predict`, {
+          Text: cleanedText,
+          Followers: countFollow,
+          predicted_likes: Number(Math.floor(val.predicted_likes)),
+          predicted_retweets: Number(Math.floor(val.predicted_retweets)),
+          predicted_replies: Number(Math.floor(val.predicted_replies)),
+          clerkId: user.id
+        }, { withCredentials: true });
+        console.log("Data saved to DB:", res.data);
+
+        setPredictData(res.data);
+        navigate(`/result/${encodeURIComponent(text)}`);
+      }
+      newDataCall()
+
+
     } catch (error) {
       console.error("API call failed:", error);
     }
   };
+
+  // user Authentication new----------------
+  useEffect(() => {
+    console.log("User data:", user);
+
+    if (user) {
+      axios.post(`http://localhost:5000/api/users`, {
+        clerkId: user.id,
+        name: user.fullName,
+        email: user.primaryEmailAddress.emailAddress,
+      }, { withCredentials: true }).then(res => console.log("User saved:", res.data));
+    }
+  }, [user]);
 
   return (
     <motion.div

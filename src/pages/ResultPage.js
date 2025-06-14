@@ -11,7 +11,10 @@ import {
   RadialBarChart, RadialBar, Legend
 } from 'recharts';
 
+import { useUser } from '@clerk/clerk-react'
+
 const ResultPage = () => {
+  const { user } = useUser()
   const [name, setName] = useState('');
   const [handle, setHandle] = useState('');
   const [sentiment, setSentiment] = useState('');
@@ -20,7 +23,9 @@ const ResultPage = () => {
   const [replies, setReplies] = useState(0);
   const [contextData, setContextData] = useState({});
   const location = useLocation();
-  const { userData } = useContext(myContext);
+  const { userData,predictData } = useContext(myContext);
+  console.log("pridect in ResultPage:", predictData);
+  
 
   const pathSegments = location.pathname.split("/");
   const encodedText = pathSegments[pathSegments.length - 1];
@@ -52,6 +57,11 @@ const ResultPage = () => {
         } else {
           setSentiment(fakeSentiments[2]);
         }
+
+        // setting likes, retweets, replies
+        setLikes(predictData?.predict[predictData.predict.length - 1]?.predicted_likes || 40)
+        setRetweets(predictData?.predict[predictData.predict.length - 1]?.predicted_retweets || 20)
+        setReplies(predictData?.predict[predictData.predict.length - 1]?.predicted_replies  || 10);
       } catch (error) {
         console.log(error);
       }
@@ -63,9 +73,9 @@ const ResultPage = () => {
   if (!userData) return <h1>Loading...</h1>;
 
   const engagementData = [
-    { name: 'Likes', value: likes },
-    { name: 'Retweets', value: retweets },
-    { name: 'Replies', value: replies }
+    { name: 'Likes', value:   likes },
+    { name: 'Retweets', value:  retweets },
+    { name: 'Replies', value:   replies }
   ];
 
   const colors = ['#4caf50', '#2196f3', '#ff9800'];
