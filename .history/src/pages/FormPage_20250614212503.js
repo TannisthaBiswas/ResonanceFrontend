@@ -11,13 +11,14 @@ const FormPage = () => {
   const navigate = useNavigate();
 
   const [text, setText] = useState("");
-  const [countFollow, setCountFollow] = useState("");
-  const [radiovalue, setRadioValue] = useState("");
+  const [countFollow, setCountFollow] = useState(null);
+  const [radiovalue, setRadioValue] = useState(null);
 
-  const handleSubmit = async () => {
+  const handelSubmitbtn = async () => {
     if (!text || !countFollow || !radiovalue) return;
 
     const hasHashtag = text.includes("#") ? 1 : 0;
+
     const emojiRegex =
       /[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{2600}-\u{26FF}]/gu;
     const hasEmoji = emojiRegex.test(text) ? 1 : 0;
@@ -25,24 +26,26 @@ const FormPage = () => {
     const cleanedText = text.replace(/[#\W_]+/g, " ").trim();
 
     const newdata = {
-      author_followers: Number(countFollow),
-      author_verified: radiovalue === 'yes' ? 1 : 0,
+      author_followers: countFollow,
+      author_verified: radiovalue === "yes" ? 1 : 0,
       has_hashtags: hasHashtag,
       has_emojis: hasEmoji,
       tweet_length: text.length,
       Text: cleanedText
     };
 
+    setUserData({});
+    navigate(`/loading?text=${encodeURIComponent(text)}`);
+
     try {
-      navigate('/loading');
       const response = await axios.post('https://twitter-engagement.onrender.com/predict', newdata);
-      const val = response.data;
-      setUserData({
+      const val = response?.data;
+      const newUserContextData = {
         likes: Math.floor(val.predicted_likes),
         replies: Math.floor(val.predicted_replies),
         retweets: Math.floor(val.predicted_retweets)
-      });
-      navigate(`/result/${encodeURIComponent(text)}`);
+      };
+      setUserData(newUserContextData);
     } catch (error) {
       console.error("API call failed:", error);
     }
@@ -71,6 +74,7 @@ const FormPage = () => {
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
           }
+
           @keyframes shadowPulse {
             0% {
               box-shadow: 0 0 20px rgba(140, 80, 255, 0.2);
@@ -100,7 +104,7 @@ const FormPage = () => {
           animation: 'shadowPulse 16s ease-in-out infinite'
         }}
       >
-        {/* LEFT: Form */}
+        {/* Left: Form */}
         <motion.div
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -113,30 +117,18 @@ const FormPage = () => {
             justifyContent: 'center'
           }}
         >
-          <h2 style={{
-            fontWeight: 700,
-            fontSize: '1.8rem',
-            lineHeight: '2.2rem',
-            color: '#111827',
-            marginBottom: '0.75rem'
-          }}>
-            Craft Tweets That Resonate.
-          </h2>
+          <h2 style={{ fontWeight: '700' }}>Let's Create a killer Tweet!</h2>
+          <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: '1.5rem' }}>
+            See the Future of Your Tweet
+            Craft your tweet, tell us who you are, and let Resonance AI predict its impact — likes, replies, and retweets in seconds.
 
-          <p style={{
-            color: '#6B7280',
-            fontSize: '15px',
-            lineHeight: '1.6',
-            marginBottom: '2rem',
-            maxWidth: '420px'
-          }}>
-            <strong style={{ color: '#374151' }}>See the future of your tweet.</strong> <br />
-            Let <strong>Resonance AI</strong> predict your Tweet's impact — likes, replies, and retweets in seconds. <br /><br />
-            <em>Your next viral post starts here.</em>
+Your next viral post starts here.
+
+
           </p>
 
           <textarea
-            placeholder='Craft Your Tweet (Use hashtags and emojis for better reach)'
+            placeholder='Enter Your Tweet'
             onChange={(e) => setText(e.target.value)}
             rows={4}
             style={{
@@ -149,8 +141,8 @@ const FormPage = () => {
           ></textarea>
 
           <input
-            type='number'
-            placeholder='How many followers do you have?'
+            type='text'
+            placeholder='Followers Count'
             onChange={(e) => setCountFollow(e.target.value)}
             style={{
               width: '100%',
@@ -170,7 +162,7 @@ const FormPage = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={handleSubmit}
+            onClick={handelSubmitbtn}
             style={{
               background: 'linear-gradient(to right, #8f5ef7, #a77dfc)',
               color: 'white',
@@ -185,7 +177,7 @@ const FormPage = () => {
           </motion.button>
         </motion.div>
 
-        {/* RIGHT: Illustration & Contact Info */}
+        {/* Right: Illustration + Address */}
         <motion.div
           initial={{ x: 50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -214,13 +206,9 @@ const FormPage = () => {
             }}
           />
           <div style={{ fontSize: '14px', color: '#4b5563', textAlign: 'center' }}>
-            <p style={{ marginBottom: '0.5rem' }}>Built by the Resonance AI Team</p>
-            <p style={{ marginBottom: '0.5rem' }}>
-              We’re on a mission to empower creators and analysts with tweet intelligence.
-              Follow us, contribute, and resonate with the future.
-            </p>
-            <p>📧 <a href="mailto:resonance@aiinsights.dev">resonance@aiinsights.dev</a></p>
-            <p>📞 +1 (800) 123-4567</p>
+            <p style={{ marginBottom: '0.5rem' }}>📍 151 New Park Ave, Hartford, CT 06106, United States</p>
+            <p style={{ marginBottom: '0.5rem' }}>📞 +1 (203) 302-9545</p>
+            <p>✉️ contactus@invertiasoft.com</p>
           </div>
         </motion.div>
       </motion.div>

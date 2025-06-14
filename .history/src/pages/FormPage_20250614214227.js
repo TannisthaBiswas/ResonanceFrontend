@@ -18,6 +18,7 @@ const FormPage = () => {
     if (!text || !countFollow || !radiovalue) return;
 
     const hasHashtag = text.includes("#") ? 1 : 0;
+
     const emojiRegex =
       /[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{2600}-\u{26FF}]/gu;
     const hasEmoji = emojiRegex.test(text) ? 1 : 0;
@@ -33,15 +34,17 @@ const FormPage = () => {
       Text: cleanedText
     };
 
+    //setUserData({});
+    //navigate(`/loading?text=${encodeURIComponent(text)}`);
+navigate('/loading');
     try {
-      navigate('/loading');
       const response = await axios.post('https://twitter-engagement.onrender.com/predict', newdata);
       const val = response.data;
       setUserData({
         likes: Math.floor(val.predicted_likes),
         replies: Math.floor(val.predicted_replies),
         retweets: Math.floor(val.predicted_retweets)
-      });
+     });
       navigate(`/result/${encodeURIComponent(text)}`);
     } catch (error) {
       console.error("API call failed:", error);
@@ -71,6 +74,7 @@ const FormPage = () => {
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
           }
+
           @keyframes shadowPulse {
             0% {
               box-shadow: 0 0 20px rgba(140, 80, 255, 0.2);
@@ -100,7 +104,7 @@ const FormPage = () => {
           animation: 'shadowPulse 16s ease-in-out infinite'
         }}
       >
-        {/* LEFT: Form */}
+        {/* Left: Form */}
         <motion.div
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -113,30 +117,31 @@ const FormPage = () => {
             justifyContent: 'center'
           }}
         >
-          <h2 style={{
-            fontWeight: 700,
-            fontSize: '1.8rem',
-            lineHeight: '2.2rem',
-            color: '#111827',
-            marginBottom: '0.75rem'
-          }}>
-            Craft Tweets That Resonate.
-          </h2>
+         <h2 style={{
+  fontWeight: 700,
+  fontSize: '1.8rem',
+  lineHeight: '2.2rem',
+  color: '#111827',
+  marginBottom: '0.75rem'
+}}>
+  Craft Tweets That Resonate.
+</h2>
 
-          <p style={{
-            color: '#6B7280',
-            fontSize: '15px',
-            lineHeight: '1.6',
-            marginBottom: '2rem',
-            maxWidth: '420px'
-          }}>
-            <strong style={{ color: '#374151' }}>See the future of your tweet.</strong> <br />
-            Let <strong>Resonance AI</strong> predict your Tweet's impact — likes, replies, and retweets in seconds. <br /><br />
-            <em>Your next viral post starts here.</em>
-          </p>
+<p style={{
+  color: '#6B7280',
+  fontSize: '15px',
+  lineHeight: '1.6',
+  marginBottom: '2rem',
+  maxWidth: '420px'
+}}>
+  <strong style={{ color: '#374151' }}>See the future of your tweet.</strong> <br />
+  Let <strong>Resonance AI</strong> predict your Tweet's impact — likes, replies, and retweets in seconds. <br /><br />
+  <em>Your next viral post starts here.</em>
+</p>
+
 
           <textarea
-            placeholder='Craft Your Tweet (Use hashtags and emojis for better reach)'
+            placeholder='Craft Your Tweet(Use hashtags and emojis for a better reach)'
             onChange={(e) => setText(e.target.value)}
             rows={4}
             style={{
@@ -149,7 +154,7 @@ const FormPage = () => {
           ></textarea>
 
           <input
-            type='number'
+            type='text'
             placeholder='How many followers do you have?'
             onChange={(e) => setCountFollow(e.target.value)}
             style={{
@@ -170,7 +175,7 @@ const FormPage = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={handleSubmit}
+            onClick={handelSubmitbtn}
             style={{
               background: 'linear-gradient(to right, #8f5ef7, #a77dfc)',
               color: 'white',
@@ -185,7 +190,7 @@ const FormPage = () => {
           </motion.button>
         </motion.div>
 
-        {/* RIGHT: Illustration & Contact Info */}
+        {/* Right: Illustration + Address */}
         <motion.div
           initial={{ x: 50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -215,12 +220,13 @@ const FormPage = () => {
           />
           <div style={{ fontSize: '14px', color: '#4b5563', textAlign: 'center' }}>
             <p style={{ marginBottom: '0.5rem' }}>Built by the Resonance AI Team</p>
-            <p style={{ marginBottom: '0.5rem' }}>
-              We’re on a mission to empower creators and analysts with tweet intelligence.
-              Follow us, contribute, and resonate with the future.
-            </p>
+            <p style={{ marginBottom: '0.5rem' }}>We’re on a mission to empower creators and analysts with tweet intelligence.
+Follow us, contribute, and resonate with the future.
+
+</p>
             <p>📧 <a href="mailto:resonance@aiinsights.dev">resonance@aiinsights.dev</a></p>
-            <p>📞 +1 (800) 123-4567</p>
+<p>📞 +1 (800) 123-4567</p>
+
           </div>
         </motion.div>
       </motion.div>
