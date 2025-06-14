@@ -1,0 +1,76 @@
+/* Layout & Scroll */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: linear-gradient(135deg, #7b2ff7, #00c9ff);
+  font-family: 'Segoe UI', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Container Sizing */
+.container-fluid {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Headings */
+h3, h5 {
+  color: #5b2fff;
+  font-weight: 600;
+}
+
+/* Cards */
+.card {
+  background-color: #ffffffdd;
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 4px 12px rgba(123, 47, 247, 0.2);
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+/* Graph Labels */
+.recharts-legend-item-text,
+.recharts-tooltip-label {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* AI Feedback */
+.text-success {
+  color: #8e2de2 !important;
+  font-size: 1.3rem;
+  font-weight: 600;
+  background: linear-gradient(to right, #7b2ff7, #00c9ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Summary Badge */
+.badge.bg-info {
+  background-color: #5b2fff !important;
+  font-size: 1.1rem;
+  padding: 6px 12px;
+  border-radius: 12px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .card {
+    margin-bottom: 1.5rem;
+  }
+
+  .text-success {
+    font-size: 1.1rem;
+  }
+}

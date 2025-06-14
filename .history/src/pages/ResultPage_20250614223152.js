@@ -2,15 +2,13 @@
 
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-
-
 import { Container, Row, Col, Navbar, Nav, Card, Badge } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
 import { myContext } from '../context/Context';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell,
-  PolarAngleAxis, PolarGrid, PolarRadiusAxis, RadarChart, Radar,
+  LineChart, Line,
   RadialBarChart, RadialBar, Legend
 } from 'recharts';
 
@@ -57,12 +55,18 @@ const ResultPage = () => {
   if (!userData) return <h1 className="text-center mt-5">Loading...</h1>;
 
   const engagementData = [
-    { metric: 'Likes', value: likes },
-    { metric: 'Retweets', value: retweets },
-    { metric: 'Replies', value: replies }
+    { name: 'Likes', value: likes },
+    { name: 'Retweets', value: retweets },
+    { name: 'Replies', value: replies }
   ];
 
   const colors = ['#4caf50', '#2196f3', '#ff9800'];
+
+  const lineData = [
+    { name: 'Likes', value: likes },
+    { name: 'Retweets', value: retweets },
+    { name: 'Replies', value: replies }
+  ];
 
   const score = (likes * 0.4 + retweets * 0.35 + replies * 0.25).toFixed(2);
 
@@ -97,7 +101,7 @@ const ResultPage = () => {
               <ResponsiveContainer width="100%" height={200}>
                 <BarChart data={engagementData}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="metric" />
+                  <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip />
                   <Bar dataKey="value" fill="#82ca9d" />
@@ -112,7 +116,7 @@ const ResultPage = () => {
                   <Pie
                     data={engagementData}
                     dataKey="value"
-                    nameKey="metric"
+                    nameKey="name"
                     cx="50%"
                     cy="50%"
                     outerRadius={60}
@@ -129,94 +133,38 @@ const ResultPage = () => {
 
           <Col md={6}>
             <Card className="p-3 mb-4 shadow-sm">
-              <h5 className="mb-3">Engagement Radar Chart</h5>
-              <ResponsiveContainer width="100%" height={250}>
-                <RadarChart outerRadius={90} data={engagementData}>
-                  <PolarGrid />
-                  <PolarAngleAxis dataKey="metric" />
-                  <PolarRadiusAxis />
-                  <Radar name="Engagement" dataKey="value" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-                </RadarChart>
+              <h5 className="mb-3">Engagement Trend (Line)</h5>
+              <ResponsiveContainer width="100%" height={200}>
+                <LineChart data={lineData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} />
+                </LineChart>
               </ResponsiveContainer>
             </Card>
 
-       <Card className="p-3 mb-4 shadow-sm" style={{ position: 'relative', height: 250 }}>
-  <h5 className="mb-3">Sentiment Confidence (Score Arc)</h5>
-
-  <div style={{ position: 'relative', height: 180 }}>
-    <svg
-      viewBox="0 0 400 200"
-      preserveAspectRatio="xMidYMid meet"
-      style={{ width: '100%', height: '100%' }}
-    >
-      <defs>
-        <linearGradient id="tweetGradient" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#7b2ff7" />
-          <stop offset="100%" stopColor="#00c9ff" />
-        </linearGradient>
-      </defs>
-
-      <path
-        d="M 60 180 A 140 140 0 0 1 340 180"
-        stroke={
-          score >= 70 ? '#28a745' : score < 40 ? '#dc3545' : 'url(#tweetGradient)'
-        }
-        strokeWidth="20"
-        fill="none"
-        strokeLinecap="round"
-      />
-    </svg>
-
-    <div style={{
-      position: 'absolute',
-      top: '55%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      textAlign: 'center',
-      lineHeight: 1.3
-    }}>
-      <div style={{
-        fontSize: '1.8rem',
-        fontWeight: 'bold',
-        color: score >= 70 ? '#28a745' : score < 40 ? '#dc3545' : '#5b2fff'
-      }}>
-        {score}%
-      </div>
-      <div style={{
-        fontSize: '1.1rem',
-        color: sentiment.toLowerCase().includes('positive') ? '#28a745'
-              : sentiment.toLowerCase().includes('negative') ? '#dc3545'
-              : '#8e2de2'
-      }}>
-        {sentiment}
-      </div>
-    </div>
-  </div>
-</Card>
-
-
+            <Card className="p-3 shadow-sm">
+              <h5 className="mb-3">Tweet Performance Score</h5>
+              <ResponsiveContainer width="100%" height={200}>
+                <RadialBarChart innerRadius="80%" outerRadius="100%" data={scoreData} startAngle={180} endAngle={0}>
+                  <RadialBar minAngle={15} background clockWise dataKey="score" />
+                  <Legend iconSize={10} layout="vertical" verticalAlign="middle" align="right" />
+                </RadialBarChart>
+              </ResponsiveContainer>
+            </Card>
           </Col>
         </Row>
 
-        <Card className="mt-4 p-4 shadow-sm bg-light">
-          <h3 className="text-center text-primary mb-3">💡 AI Feedback</h3>
-          <p className="text-center" style={{
-            fontSize: '1.75rem',
-            fontWeight: '600',
-            color: '#0d6efd'
-          }}>
-            {getFeedbackMessage()}
-          </p>
-        </Card>
-
         <Card className="mt-4 p-4 shadow-sm">
-          <h5 className="mb-3 text-center">📌 Final Metrics</h5>
-          <p><strong>Sentiment:</strong> {sentiment}</p>
+          <h5 className="text-center mb-3">📌 Summary</h5>
+          <p><strong>Predicted Sentiment:</strong> <Badge bg="info" style={{ fontSize: '1rem' }}>{sentiment}</Badge></p>
           <p><strong>Predicted Likes:</strong> {likes}</p>
           <p><strong>Predicted Retweets:</strong> {retweets}</p>
           <p><strong>Predicted Replies:</strong> {replies}</p>
-          <p><strong>Score:</strong> {score}</p>
-          
+          <hr />
+          <p className="mt-3 text-success"><strong>AI Feedback:</strong> {getFeedbackMessage()}</p>
         </Card>
       </Container>
     </>

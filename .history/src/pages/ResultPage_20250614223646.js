@@ -2,7 +2,7 @@
 
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-
+import './ResultPage.css';
 
 import { Container, Row, Col, Navbar, Nav, Card, Badge } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
@@ -140,61 +140,25 @@ const ResultPage = () => {
               </ResponsiveContainer>
             </Card>
 
-       <Card className="p-3 mb-4 shadow-sm" style={{ position: 'relative', height: 250 }}>
-  <h5 className="mb-3">Sentiment Confidence (Score Arc)</h5>
-
-  <div style={{ position: 'relative', height: 180 }}>
-    <svg
-      viewBox="0 0 400 200"
-      preserveAspectRatio="xMidYMid meet"
-      style={{ width: '100%', height: '100%' }}
-    >
-      <defs>
-        <linearGradient id="tweetGradient" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#7b2ff7" />
-          <stop offset="100%" stopColor="#00c9ff" />
-        </linearGradient>
-      </defs>
-
-      <path
-        d="M 60 180 A 140 140 0 0 1 340 180"
-        stroke={
-          score >= 70 ? '#28a745' : score < 40 ? '#dc3545' : 'url(#tweetGradient)'
-        }
-        strokeWidth="20"
-        fill="none"
-        strokeLinecap="round"
-      />
-    </svg>
-
-    <div style={{
-      position: 'absolute',
-      top: '55%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      textAlign: 'center',
-      lineHeight: 1.3
-    }}>
-      <div style={{
-        fontSize: '1.8rem',
-        fontWeight: 'bold',
-        color: score >= 70 ? '#28a745' : score < 40 ? '#dc3545' : '#5b2fff'
-      }}>
-        {score}%
-      </div>
-      <div style={{
-        fontSize: '1.1rem',
-        color: sentiment.toLowerCase().includes('positive') ? '#28a745'
-              : sentiment.toLowerCase().includes('negative') ? '#dc3545'
-              : '#8e2de2'
-      }}>
-        {sentiment}
-      </div>
-    </div>
-  </div>
-</Card>
-
-
+            <Card className="p-3 shadow-sm">
+              <h5 className="mb-2">Sentiment Confidence (Mock Arc)</h5>
+              <div className="d-flex justify-content-center align-items-center" style={{ height: '160px' }}>
+                <div style={{
+                  width: '140px',
+                  height: '70px',
+                  background: 'linear-gradient(to right, red, orange, green)',
+                  borderTopLeftRadius: '70px',
+                  borderTopRightRadius: '70px',
+                  textAlign: 'center',
+                  paddingTop: '25px',
+                  fontWeight: 'bold',
+                  fontSize: '18px',
+                  color: '#fff'
+                }}>
+                  {sentiment}
+                </div>
+              </div>
+            </Card>
           </Col>
         </Row>
 
